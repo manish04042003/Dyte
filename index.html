@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.dyte.in/core/dyte-1.6.0.js"></script>
+    <!-- <script src="https://cdn.dyte.in/core/dyte-1.6.0.js" /> -->
+    <title>Document</title>
+
+</head>
+
+<body>
+    <div>
+        <button onclick="createMeetingLink()">create meeting link</button>
+
+    </div>
+</body>
+
+
+
+<script>
+
+    function createMeetingLink() {
+        const meetingTitle = 'test';
+        const apiKey = "6589feee2124396edff1"; // Replace with your Dyte API key
+        const email = 'manishkumar817835@gmail.com'
+
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Basic YjgxZTI2Y2ItOTA1OC00YzdhLThlMDctYWQ3NDhiZjVmOTU4OjY1ODlmZWVlMjEyNDM5NmVkZmYx'
+            },
+            body: '{"title":"string","preferred_region":"ap-south-1","record_on_start":false,"live_stream_on_start":false}'
+        };
+
+        fetch('https://api.cluster.dyte.in/v2/meetings', options)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response);
+                addParticipant(response.data.id);
+            })
+            .catch(err => console.error(err));
+
+
+    }
+
+
+
+
+    
+    function addParticipant(meetingID) {
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Basic YjgxZTI2Y2ItOTA1OC00YzdhLThlMDctYWQ3NDhiZjVmOTU4OjY1ODlmZWVlMjEyNDM5NmVkZmYx'
+            },
+            body: `{"name":"Mary Sue","picture":"https://i.imgur.com/test.jpg","preset_name":"group_call_participant","custom_participant_id":"string"}`
+        };
+
+        fetch(`https://api.cluster.dyte.in/v2/meetings/${meetingID}/participants`, options)
+            .then(response => response.json())
+            .then(response => console.log(response))
+            .catch(err => console.error(err));
+    }
+
+
+
+
+
+
+    // async function joinMeeting() {
+    //     const meeting = await DyteClient.init({
+    //         apiKey,
+    //     });
+
+    //     const meetingId = document.getElementById("meetingId").value;
+    //     const options = {
+    //         room: meetingId,
+    //     };
+    //     const sdk = new DyteSDK(options);
+    //     sdk.joinMeeting();
+    // }
+
+
+</script>
+
+</html>
